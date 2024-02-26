@@ -1,21 +1,27 @@
 import React from 'react';
 import { View, StyleSheet, TouchableOpacity, Image, Text } from 'react-native';
 import { Card, Title } from 'react-native-paper';
+import { useNavigation } from '@react-navigation/native';
 
 const DashboardScreen = () => {
+  const navigation = useNavigation();
   const data = [
-    { title: 'Dairy  Records', icon: require('../assets/icons8-balance-scale-left-32.png') },
-    { title: 'Income', icon: require('../assets/icons8-income-64.png') },
-    { title: 'Analytics', icon: require('../assets/icons8-graph-32.png') },
-    { title: 'Invoices', icon: require('../assets/icons8-info-48.png') },
-    { title: 'Notepad', icon: require('../assets/icons8-note-50.png') },
-    { title: 'My Farm', icon: require('../assets/icons8-cattle-64.png') },
-    { title: 'Reports', icon: require('../assets/icons8-pie-chart-64.png') },
-    { title: 'Expenses', icon: require('../assets/icons8-ubuntu-50.png') },
-    { title: 'Management', icon: require('../assets/icons8-management-50.png') },
-    { title: 'IOT', icon: require('../assets/icons8-iot-sensor-50.png') },
-    { title: 'AI Assistant', icon: require('../assets/icons8-chipping-64.png') },
+    { title: 'Dairy Records', icon: require('../assets/icons8-balance-scale-left-32.png'), route: 'DairyRecords' },
+    { title: 'Income', icon: require('../assets/icons8-income-64.png'), route: 'Income' },
+    { title: 'Analytics', icon: require('../assets/icons8-graph-32.png'), route: 'Analytics' },
+    { title: 'Invoices', icon: require('../assets/icons8-info-48.png'), route: 'Invoices' },
+    { title: 'Notepad', icon: require('../assets/icons8-note-50.png'), route: 'Notepad' },
+    { title: 'My Farm', icon: require('../assets/icons8-cattle-64.png'), route: 'Farm' }, // Updated route to 'FarmScreen'
+    { title: 'Reports', icon: require('../assets/icons8-pie-chart-64.png'), route: 'Reports' },
+    { title: 'Expenses', icon: require('../assets/icons8-ubuntu-50.png'), route: 'Expenses' },
+    { title: 'Management', icon: require('../assets/icons8-management-50.png'), route: 'Management' },
+    { title: 'IOT', icon: require('../assets/icons8-iot-sensor-50.png'), route: 'IOT' },
+    { title: 'AI Assistant', icon: require('../assets/icons8-chipping-64.png'), route: 'AIAssistant' },
   ];
+
+  const navigateToScreen = (route) => {
+    navigation.navigate(route);
+  };
 
   const renderColumns = () => {
     const columns = [];
@@ -25,7 +31,7 @@ const DashboardScreen = () => {
       columns.push(
         <View key={`column_${i}`} style={styles.column}>
           {columnCards.map((card, index) => (
-            <SmallCard key={index} title={card.title} icon={card.icon} />
+            <SmallCard key={index} title={card.title} icon={card.icon} onPress={() => navigateToScreen(card.route)} />
           ))}
         </View>
       );
@@ -43,9 +49,9 @@ const DashboardScreen = () => {
   );
 };
 
-const SmallCard = ({ title, icon }) => {
+const SmallCard = ({ title, icon, onPress }) => {
   return (
-    <TouchableOpacity onPress={() => console.log(`Pressed ${title}`)}>
+    <TouchableOpacity onPress={onPress}>
       <Card style={styles.card}>
         <Card.Content style={styles.cardContent}>
           <Image source={icon} style={styles.icon} />
@@ -58,13 +64,13 @@ const SmallCard = ({ title, icon }) => {
   );
 };
 
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
     backgroundColor: '#f0f0f0',
     padding: 10,
+    marginHorizontal:8,
   },
   welcome:{
     fontSize: 24,
@@ -86,11 +92,11 @@ const styles = StyleSheet.create({
   },
   card: {
     marginVertical: 5,
-    width: 180,
+    width: 150,
     height: 80,
     backgroundColor: '#fff',
-    borderWidth: 0.9,
-    borderColor: 'black',
+    borderWidth: 0.8,
+    borderColor: 'maroon',
     borderRadius: 1,
     alignItems: 'center',
     justifyContent: 'center',
@@ -106,7 +112,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 14,
     fontWeight: 'bold',
-    color: 'maroon',
+    color: 'black',
     textAlign: 'center',
     fontFamily:'stencil'
   },

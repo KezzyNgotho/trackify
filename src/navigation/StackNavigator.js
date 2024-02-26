@@ -8,7 +8,9 @@ import { BottomTabNavigator } from "./TabNavigator";
 import LoginScreen from "../screens/LoginScreen";
 import RegistrationScreen from "../screens/RegistrationScreen";
 import HomeScreen from "../screens/HomeScreen";
-
+import FarmScreen from "../screens/FarmScreen";
+import RegisterCattleScreen from "../screens/RegisterCattleScreen";
+import CattleDetailsScreen from "../screens/CattleDetailsScreen";
 const Stack = createNativeStackNavigator();
 
 // Create a MUI theme (customize as needed)
@@ -26,6 +28,9 @@ const MainStackNavigator = () => {
         initialRouteName={"HomeScreen"}
       >
         <Stack.Screen name="HomeScreen" component={HomeScreen} />
+        <Stack.Screen name="Farm" component={FarmScreen} />
+        <Stack.Screen name="RegisterCattle" component={RegisterCattleScreen} />
+        <Stack.Screen name="CattleDetails" component={CattleDetailsScreen} />
       </Stack.Navigator>
     </ThemeProvider>
   );
