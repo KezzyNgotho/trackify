@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { ScrollView, View, StyleSheet, Text, Image, TouchableOpacity } from 'react-native';
 import { TextInput, Button  } from 'react-native-paper';
 import DateTimePicker from '@react-native-community/datetimepicker';
-
+import { useNavigation } from '@react-navigation/native';
 // Custom Checkbox component using image icons
 const CustomCheckbox = ({ label, checked, onPress }) => (
   <TouchableOpacity onPress={onPress} style={styles.checkboxContainer}>
@@ -15,6 +15,7 @@ const CustomCheckbox = ({ label, checked, onPress }) => (
 );
 
 const RegisterCattleScreen = () => {
+    const navigation = useNavigation();
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
   const [status, setStatus] = useState('');
@@ -77,8 +78,13 @@ const RegisterCattleScreen = () => {
 
   return (
     <ScrollView style={styles.container}>
-      <Text style={styles.heading}>Register My Cattle</Text>
-
+   
+      <View style={styles.header}>
+        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
+          <Image source={require('../assets/icons8-back-24.png')} style={styles.backIcon} />
+        </TouchableOpacity>
+        <Text style={styles.heading}>Register New Cattle</Text>
+      </View>
       <TextInput
         label="Name"
         value={name}
@@ -202,14 +208,33 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
+    backgroundColor:'white'
+  },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: 'white',
+    //borderBottomWidth: 1,
+    borderBottomColor: 'gray',
+    paddingHorizontal: 10,
+    paddingVertical: 15,
+    alignContent:'center'
+  },
+  backButton: {
+    marginRight: 10,
+  },
+  backIcon: {
+    width: 24,
+    height: 24,
   },
   heading: {
-    fontSize: 40,
+    fontSize: 20,
     fontWeight: 'bold',
     color: 'maroon', // Adjust color as needed
     fontFamily: 'cursive', // Change font to caligraphed font
     marginBottom: 10,
-    alignSelf:'center'
+    //alignSelf:'center',
+    marginLeft:60,
   },
   
   input: {

@@ -6,7 +6,7 @@ import { useNavigation } from '@react-navigation/native';
 const DashboardScreen = () => {
   const navigation = useNavigation();
   const data = [
-    { title: 'Dairy Records', icon: require('../assets/icons8-balance-scale-left-32.png'), route: 'DairyRecords' },
+    { title: 'Dairy Records', icon: require('../assets/icons8-balance-scale-left-32.png'), route: 'Dairy' },
     { title: 'Income', icon: require('../assets/icons8-income-64.png'), route: 'Income' },
     { title: 'Analytics', icon: require('../assets/icons8-graph-32.png'), route: 'Analytics' },
     { title: 'Invoices', icon: require('../assets/icons8-info-48.png'), route: 'Invoices' },
@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    backgroundColor: '#f0f0f0',
+    backgroundColor: 'white',
     padding: 10,
     marginHorizontal:8,
   },
@@ -101,6 +101,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     elevation: 1,
+    shadowColor:'transparent'
   },
   cardContent: {
     flexDirection: 'column',

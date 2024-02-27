@@ -1,7 +1,5 @@
-// FarmScreen.js
-
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Image } from 'react-native';
 
 const FarmScreen = ({ navigation }) => {
   const [cattleList, setCattleList] = useState([
@@ -46,53 +44,88 @@ const FarmScreen = ({ navigation }) => {
     navigation.navigate('RegisterCattle');
   };
 
+  const handleGoBack = () => {
+    navigation.goBack();
+  };
+
   return (
-    <ScrollView>
-      <View style={styles.container}>
-        <Text style={styles.heading}>Cattle List</Text>
-        {cattleList.map((cattle) => (
-          <TouchableOpacity key={cattle.id} onPress={() => handleCattlePress(cattle)}>
-            <View style={styles.cattleItem}>
-              <Text>Name: {cattle.name}</Text>
-              <Text>Type: {cattle.type}</Text>
-            </View>
-          </TouchableOpacity>
-        ))}
-        <TouchableOpacity style={styles.addButton} onPress={handleAddCattle}>
-          <Text style={styles.addButtonText}>Add Cattle</Text>
+    <ScrollView contentContainerStyle={styles.container}>
+      <View style={styles.header}>
+        <TouchableOpacity onPress={handleGoBack}>
+          <Image source={require('../assets/icons8-back-24.png')} style={styles.backIcon} />
         </TouchableOpacity>
+        <Text style={styles.heading}>Cattle List</Text>
       </View>
+      {cattleList.map((cattle) => (
+        <TouchableOpacity key={cattle.id} onPress={() => handleCattlePress(cattle)}>
+          <View style={styles.cattleItem}>
+            <Text style={styles.cattleName}>{cattle.name}</Text>
+            <Text style={styles.type}>Type: {cattle.type}</Text>
+          </View>
+        </TouchableOpacity>
+      ))}
+      <TouchableOpacity style={styles.addButton} onPress={handleAddCattle}>
+        <Image source={require('../assets/icons8-add-50.png')} style={styles.addButtonIcon} />
+      </TouchableOpacity>
     </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    padding: 20,
+    flexGrow: 1,
+    backgroundColor: '#f8f8f8',
+    paddingVertical: 20,
+    paddingHorizontal: 15,
+  },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 30,
   },
   heading: {
-    fontSize: 20,
+    fontSize: 24,
     fontWeight: 'bold',
-    marginBottom: 10,
+    fontFamily: 'cursive',
+    color: 'maroon',
+    marginLeft: 60,
+  },
+  backIcon: {
+    width: 24,
+    height: 24,
   },
   cattleItem: {
-    borderWidth: 1,
-    borderColor: 'gray',
-    padding: 10,
-    marginBottom: 10,
+    backgroundColor: '#fff',
+    borderRadius: 1,
+    padding: 15,
+    marginBottom: 15,
+   
+    elevation: 1,
+  },
+  cattleName: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 5,
+    color: 'maroon',
+  },
+  type:{
+color:'black',
   },
   addButton: {
-    backgroundColor: 'green',
-    padding: 10,
-    borderRadius: 5,
+    position: 'absolute',
+    bottom: 20,
+    left: 20,
+    backgroundColor: 'maroon',
+    borderRadius: 30,
+    padding: 15,
     alignItems: 'center',
-    marginTop: 20,
+    justifyContent: 'center',
+    elevation: 5,
   },
-  addButtonText: {
-    color: 'white',
-    fontSize: 16,
-    fontWeight: 'bold',
+  addButtonIcon: {
+    width: 30,
+    height: 30,
+    tintColor: '#fff',
   },
 });
 
