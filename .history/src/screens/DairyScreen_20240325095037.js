@@ -246,7 +246,7 @@ const styles = StyleSheet.create({
   },
 
   sectionHeading: {
-    fontSize: 12,
+    fontSize: 14,
     fontWeight: 'bold',
     marginBottom: 10,
     fontFamily: 'Arial',

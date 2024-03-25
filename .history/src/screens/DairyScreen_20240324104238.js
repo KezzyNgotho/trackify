@@ -19,39 +19,24 @@ const DairyScreen = () => {
   const shifts = ['Morning', 'Afternoon', 'Evening'];
 
   // Function to add production record
- 
- // Function to add production record
-const addRecord = () => {
-  if (!selectedCattle) {
-    Alert.alert('Missing Information', 'Please select a cattle.');
-    return;
-  }
-
-  // Check relevant fields based on the current shift
-  if (currentShift === 'Morning' && !morningAmount) {
-    Alert.alert('Missing Information', 'Please fill in morning amount.');
-    return;
-  } else if (currentShift === 'Afternoon' && !afternoonAmount) {
-    Alert.alert('Missing Information', 'Please fill in afternoon amount.');
-    return;
-  } else if (currentShift === 'Evening' && !eveningAmount) {
-    Alert.alert('Missing Information', 'Please fill in evening amount.');
-    return;
-  }
-
-  const newRecord = { 
-    cattle: selectedCattle, 
-    morningAmount: currentShift === 'Morning' ? morningAmount : '',
-    afternoonAmount: currentShift === 'Afternoon' ? afternoonAmount : '',
-    eveningAmount: currentShift === 'Evening' ? eveningAmount : '',
-    shift: currentShift // Include current shift in the record
+  const addRecord = () => {
+    if (!selectedCattle || !morningAmount || !afternoonAmount || !eveningAmount) {
+      Alert.alert('Missing Information', 'Please fill in all fields.');
+      return;
+    }
+    const newRecord = { 
+      cattle: selectedCattle, 
+      morningAmount, 
+      afternoonAmount, 
+      eveningAmount,
+      shift: currentShift // Include current shift in the record
+    };
+    setRecords([...records, newRecord]);
+    setSelectedCattle('');
+    setMorningAmount('');
+    setAfternoonAmount('');
+    setEveningAmount('');
   };
-  setRecords([...records, newRecord]);
-  setSelectedCattle('');
-  setMorningAmount('');
-  setAfternoonAmount('');
-  setEveningAmount('');
-};
 
   // Function to record milk usage
   const recordUsage = () => {
@@ -109,7 +94,7 @@ const addRecord = () => {
     <View style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollViewContent}>
         <Text style={styles.heading}>Dairy Records</Text>
-        {currentShift === 'Morning' && (
+        {currentShift === 'Morning' && ( // Render only if it's the morning shift
           <View style={styles.formContainer}>
             <Picker
               selectedValue={selectedCattle}
@@ -125,9 +110,21 @@ const addRecord = () => {
               <Text style={styles.shiftText}>Shift: {currentShift}</Text>
             </View>
             <PaperTextInput
-              label={`${currentShift} Amount`}
+              label="Morning Amount"
               value={morningAmount}
               onChangeText={setMorningAmount}
+              style={styles.input}
+            />
+            <PaperTextInput
+              label="Afternoon Amount"
+              value={afternoonAmount}
+              onChangeText={setAfternoonAmount}
+              style={styles.input}
+            />
+            <PaperTextInput
+              label="Evening Amount"
+              value={eveningAmount}
+              onChangeText={setEveningAmount}
               style={styles.input}
             />
             <Button 
@@ -139,30 +136,26 @@ const addRecord = () => {
             </Button>
           </View>
         )}
-        {records.some(record => record.shift === currentShift) && (
-          <>
-            <Text style={styles.sectionHeading}>Record Milk Usage</Text>
-            <Picker
-              selectedValue={usageType}
-              onValueChange={(itemValue) => setUsageType(itemValue)}
-              style={styles.picker}
-            >
-              <Picker.Item label="Select Usage Type" value="" />
-              <Picker.Item label="Sales" value="Sales" />
-              <Picker.Item label="Consumption" value="Consumption" />
-              <Picker.Item label="Friends/Calves" value="Friends/Calves" />
-              {/* Add other usage types as needed */}
-            </Picker>
-            <Button 
-              mode="contained" 
-              onPress={recordUsage} 
-              style={styles.addButton}
-              disabled={!records.some(record => record.shift === currentShift)}
-            >
-              Record Usage
-            </Button>
-          </>
-        )}
+        <Text style={styles.sectionHeading}>Record Milk Usage</Text>
+        <Picker
+          selectedValue={usageType}
+          onValueChange={(itemValue) => setUsageType(itemValue)}
+          style={styles.picker}
+        >
+          <Picker.Item label="Select Usage Type" value="" />
+          <Picker.Item label="Sales" value="Sales" />
+          <Picker.Item label="Consumption" value="Consumption" />
+          <Picker.Item label="Friends/Calves" value="Friends/Calves" />
+          {/* Add other usage types as needed */}
+        </Picker>
+        <Button 
+          mode="contained" 
+          onPress={recordUsage} 
+          style={styles.addButton}
+          disabled={!records.some(record => record.shift === currentShift)} // Disable if produce not recorded for current shift
+        >
+          Record Usage
+        </Button>
         <Text style={styles.sectionHeading}>Daily Milk Usage Summary</Text>
         <View style={styles.usageSummary}>
           {Object.entries(dailyUsageSummary).map(([type, amount]) => (
@@ -225,7 +218,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   shiftText: {
-    fontSize: 14,
+    fontSize: 16,
     fontWeight: 'bold',
     marginRight: 5,
   },
@@ -246,7 +239,7 @@ const styles = StyleSheet.create({
   },
 
   sectionHeading: {
-    fontSize: 12,
+    fontSize: 14,
     fontWeight: 'bold',
     marginBottom: 10,
     fontFamily: 'Arial',
@@ -280,4 +273,3 @@ const styles = StyleSheet.create({
 });
 
 export default DairyScreen;
-

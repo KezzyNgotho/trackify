@@ -225,7 +225,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   shiftText: {
-    fontSize: 14,
+    fontSize: 16,
     fontWeight: 'bold',
     marginRight: 5,
   },
@@ -246,7 +246,7 @@ const styles = StyleSheet.create({
   },
 
   sectionHeading: {
-    fontSize: 12,
+    fontSize: 14,
     fontWeight: 'bold',
     marginBottom: 10,
     fontFamily: 'Arial',

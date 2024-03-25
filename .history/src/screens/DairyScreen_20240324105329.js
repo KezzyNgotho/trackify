@@ -19,39 +19,24 @@ const DairyScreen = () => {
   const shifts = ['Morning', 'Afternoon', 'Evening'];
 
   // Function to add production record
- 
- // Function to add production record
-const addRecord = () => {
-  if (!selectedCattle) {
-    Alert.alert('Missing Information', 'Please select a cattle.');
-    return;
-  }
-
-  // Check relevant fields based on the current shift
-  if (currentShift === 'Morning' && !morningAmount) {
-    Alert.alert('Missing Information', 'Please fill in morning amount.');
-    return;
-  } else if (currentShift === 'Afternoon' && !afternoonAmount) {
-    Alert.alert('Missing Information', 'Please fill in afternoon amount.');
-    return;
-  } else if (currentShift === 'Evening' && !eveningAmount) {
-    Alert.alert('Missing Information', 'Please fill in evening amount.');
-    return;
-  }
-
-  const newRecord = { 
-    cattle: selectedCattle, 
-    morningAmount: currentShift === 'Morning' ? morningAmount : '',
-    afternoonAmount: currentShift === 'Afternoon' ? afternoonAmount : '',
-    eveningAmount: currentShift === 'Evening' ? eveningAmount : '',
-    shift: currentShift // Include current shift in the record
+  const addRecord = () => {
+    if (!selectedCattle || !morningAmount || !afternoonAmount || !eveningAmount) {
+      Alert.alert('Missing Information', 'Please fill in all fields.');
+      return;
+    }
+    const newRecord = { 
+      cattle: selectedCattle, 
+      morningAmount, 
+      afternoonAmount, 
+      eveningAmount,
+      shift: currentShift // Include current shift in the record
+    };
+    setRecords([...records, newRecord]);
+    setSelectedCattle('');
+    setMorningAmount('');
+    setAfternoonAmount('');
+    setEveningAmount('');
   };
-  setRecords([...records, newRecord]);
-  setSelectedCattle('');
-  setMorningAmount('');
-  setAfternoonAmount('');
-  setEveningAmount('');
-};
 
   // Function to record milk usage
   const recordUsage = () => {
@@ -157,7 +142,6 @@ const addRecord = () => {
               mode="contained" 
               onPress={recordUsage} 
               style={styles.addButton}
-              disabled={!records.some(record => record.shift === currentShift)}
             >
               Record Usage
             </Button>
@@ -178,105 +162,104 @@ const addRecord = () => {
         <Text style={styles.sectionHeading}>Milk Production Records</Text>
         <FlatList
           data={records}
-          renderItem={({ item }) => (
-            <View style={styles.recordItem}>
-              <Text style={styles.recordText}>Cattle: {item.cattle}</Text>
-              <Text style={styles.recordText}>Morning: {item.morningAmount}</Text>
-              <Text style={styles.recordText}>Afternoon: {item.afternoonAmount}</Text>
-              <Text style={styles.recordText}>Evening: {item.eveningAmount}</Text>
-            </View>
-          )}
-          keyExtractor={(item, index) => index.toString()}
-          style={styles.recordList}
-        />
-      </ScrollView>
-    </View>
-  );
+          renderItem={({ item }) => (            <View style={styles.recordItem}>
+            <Text style={styles.recordText}>Cattle: {item.cattle}</Text>
+            <Text style={styles.recordText}>Morning: {item.morningAmount}</Text>
+            <Text style={styles.recordText}>Afternoon: {item.afternoonAmount}</Text>
+            <Text style={styles.recordText}>Evening: {item.eveningAmount}</Text>
+          </View>
+        )}
+        keyExtractor={(item, index) => index.toString()}
+        style={styles.recordList}
+      />
+    </ScrollView>
+  </View>
+);
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-  },
-  scrollViewContent: {
-    flexGrow: 1,
-    paddingVertical: 20,
-    paddingHorizontal: 15,
-  },
-  heading: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    fontFamily: 'cursive',
-    color: 'maroon',
-  },
-  formContainer: {
-    backgroundColor: 'white',
-    padding: 15,
-    borderRadius: 10,
-    marginBottom: 20,
-  },
-  picker: {
-    height: 50,
-    marginBottom: 10,
-  },
-  shiftContainer: {
-    flexDirection: 'row',
-    marginBottom: 10,
-  },
-  shiftText: {
-    fontSize: 14,
-    fontWeight: 'bold',
-    marginRight: 5,
-  },
-  shiftOption: {
-    fontSize: 12,
-    marginBottom: 5,
-    color: 'black',
-  },
-  input: {
-    marginBottom: 10,
-    backgroundColor: "transparent",
-  },
-  addButton: {
-    marginBottom: 10,
-    width: 150,
-    color: 'maroon',
-    borderRadius: 2,
-  },
+container: {
+  flex: 1,
+  backgroundColor: '#fff',
+},
+scrollViewContent: {
+  flexGrow: 1,
+  paddingVertical: 20,
+  paddingHorizontal: 15,
+},
+heading: {
+  fontSize: 24,
+  fontWeight: 'bold',
+  fontFamily: 'cursive',
+  color: 'maroon',
+},
+formContainer: {
+  backgroundColor: 'white',
+  padding: 15,
+  borderRadius: 10,
+  marginBottom: 20,
+},
+picker: {
+  height: 50,
+  marginBottom: 10,
+},
+shiftContainer: {
+  flexDirection: 'row',
+  marginBottom: 10,
+},
+shiftText: {
+  fontSize: 16,
+  fontWeight: 'bold',
+  marginRight: 5,
+},
+shiftOption: {
+  fontSize: 12,
+  marginBottom: 5,
+  color: 'black',
+},
+input: {
+  marginBottom: 10,
+  backgroundColor: "transparent",
+},
+addButton: {
+  marginBottom: 10,
+  width: 150,
+  color: 'maroon',
+  borderRadius: 2,
+},
 
-  sectionHeading: {
-    fontSize: 12,
-    fontWeight: 'bold',
-    marginBottom: 10,
-    fontFamily: 'Arial',
-    color: "black",
-  },
-  usageSummary: {
-    marginBottom: 20,
-  },
-  shiftSummary: {
-    marginBottom: 20,
-  },
-  summaryText: {
-    fontSize: 14,
-    marginBottom: 5,
-    fontFamily: 'Arial',
-  },
-  recordItem: {
-    backgroundColor: '#f0f0f0',
-    padding: 15,
-    borderRadius: 2,
-    marginBottom: 10,
-  },
-  recordText: {
-    fontSize: 16,
-    marginBottom: 5,
-    fontFamily: 'Arial',
-  },
-  recordList: {
-    marginBottom: 20,
-  },
+sectionHeading: {
+  fontSize: 14,
+  fontWeight: 'bold',
+  marginBottom: 10,
+  fontFamily: 'Arial',
+  color: "black",
+},
+usageSummary: {
+  marginBottom: 20,
+},
+shiftSummary: {
+  marginBottom: 20,
+},
+summaryText: {
+  fontSize: 14,
+  marginBottom: 5,
+  fontFamily: 'Arial',
+},
+recordItem: {
+  backgroundColor: '#f0f0f0',
+  padding: 15,
+  borderRadius: 2,
+  marginBottom: 10,
+},
+recordText: {
+  fontSize: 16,
+  marginBottom: 5,
+  fontFamily: 'Arial',
+},
+recordList: {
+  marginBottom: 20,
+},
 });
 
 export default DairyScreen;

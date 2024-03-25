@@ -20,39 +20,6 @@ const DairyScreen = () => {
 
   // Function to add production record
  
- // Function to add production record
-const addRecord = () => {
-  if (!selectedCattle) {
-    Alert.alert('Missing Information', 'Please select a cattle.');
-    return;
-  }
-
-  // Check relevant fields based on the current shift
-  if (currentShift === 'Morning' && !morningAmount) {
-    Alert.alert('Missing Information', 'Please fill in morning amount.');
-    return;
-  } else if (currentShift === 'Afternoon' && !afternoonAmount) {
-    Alert.alert('Missing Information', 'Please fill in afternoon amount.');
-    return;
-  } else if (currentShift === 'Evening' && !eveningAmount) {
-    Alert.alert('Missing Information', 'Please fill in evening amount.');
-    return;
-  }
-
-  const newRecord = { 
-    cattle: selectedCattle, 
-    morningAmount: currentShift === 'Morning' ? morningAmount : '',
-    afternoonAmount: currentShift === 'Afternoon' ? afternoonAmount : '',
-    eveningAmount: currentShift === 'Evening' ? eveningAmount : '',
-    shift: currentShift // Include current shift in the record
-  };
-  setRecords([...records, newRecord]);
-  setSelectedCattle('');
-  setMorningAmount('');
-  setAfternoonAmount('');
-  setEveningAmount('');
-};
-
   // Function to record milk usage
   const recordUsage = () => {
     if (!usageType) {
@@ -225,7 +192,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   shiftText: {
-    fontSize: 14,
+    fontSize: 16,
     fontWeight: 'bold',
     marginRight: 5,
   },
@@ -246,7 +213,7 @@ const styles = StyleSheet.create({
   },
 
   sectionHeading: {
-    fontSize: 12,
+    fontSize: 14,
     fontWeight: 'bold',
     marginBottom: 10,
     fontFamily: 'Arial',
